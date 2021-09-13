@@ -8,7 +8,10 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.freepsplusgamesnotifier.presentation.game_list.view_model.GameListViewModel
 import com.example.freepsplusgamesnotifier.ui.theme.FreePsPlusGamesNotifierTheme
+import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +28,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
+fun Greeting(
+    name: String,
+) {
     Text(text = "Hello $name!")
 }
 

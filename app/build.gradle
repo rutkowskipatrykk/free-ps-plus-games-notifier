@@ -1,15 +1,17 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
-    compileSdk 30
+    compileSdk 31
 
     defaultConfig {
         applicationId "com.example.freepsplusgamesnotifier"
-        minSdk 21
-        targetSdk 30
+        minSdk 30
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -17,6 +19,10 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        configurations.all {
+            resolutionStrategy { force 'androidx.core:core-ktx:1.6.0' }
+        }
+
     }
 
     buildTypes {
@@ -56,13 +62,31 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_runtime_ktx_version"
     implementation "androidx.activity:activity-compose:$activity_compose_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha06"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
 
-
-    testImplementation "junit:junit:$junit_version"
+    //di
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android:$hilt_version"
 
     androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-compiler:$hilt_version"
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptTest "com.google.dagger:hilt-compiler:$hilt_version"
+}
+
+kapt {
+    correctErrorTypes true
 }
