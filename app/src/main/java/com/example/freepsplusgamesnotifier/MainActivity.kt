@@ -3,24 +3,31 @@ package com.example.freepsplusgamesnotifier
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.State
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
+import com.example.freepsplusgamesnotifier.presentation.game_list.GameListState
+import com.example.freepsplusgamesnotifier.presentation.game_list.components.SingleGameListElement
 import com.example.freepsplusgamesnotifier.presentation.game_list.view_model.GameListViewModel
 import com.example.freepsplusgamesnotifier.ui.theme.FreePsPlusGamesNotifierTheme
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FreePsPlusGamesNotifierTheme {
-                // A surface container using the 'background' color from the theme
+                val viewModel: GameListViewModel = hiltViewModel()
+                viewModel.getGameListForDate(1338933600005)
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    MainScreenList(viewModel.gameListState)
                 }
             }
         }
@@ -28,16 +35,21 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(
-    name: String,
-) {
-    Text(text = "Hello $name!")
-}
+fun MainScreenList(state: State<GameListState>) {
+    val navController = rememberNavController()
+        when {
+            state.value.isLoading -> {
+                CircularProgressIndicator()
+            }
+            state.value.error?.isNotEmpty() == true -> {
+            }
+            state.value.data?.isNotEmpty() == true -> {
+                    LazyColumn {
+                        this.items(state.value.data!!) { singleGame ->
+                            SingleGameListElement(gameName = singleGame.name, navController = navController)
+                        }
+                    }
+            }
+        }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    FreePsPlusGamesNotifierTheme {
-        Greeting("Android")
-    }
 }

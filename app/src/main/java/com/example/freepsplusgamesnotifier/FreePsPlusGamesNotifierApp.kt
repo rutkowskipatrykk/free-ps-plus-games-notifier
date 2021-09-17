@@ -2,6 +2,16 @@ package com.example.freepsplusgamesnotifier
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
 
 @HiltAndroidApp
-class FreePsPlusGamesNotifierApp: Application()
+class FreePsPlusGamesNotifierApp : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+    }
+
+}
