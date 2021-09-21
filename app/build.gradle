@@ -70,6 +70,7 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$timber_version"
     implementation "io.reactivex.rxjava3:rxandroid:$rx_version"
     implementation "io.reactivex.rxjava3:rxjava:$rx_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor"
 
     //di
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"

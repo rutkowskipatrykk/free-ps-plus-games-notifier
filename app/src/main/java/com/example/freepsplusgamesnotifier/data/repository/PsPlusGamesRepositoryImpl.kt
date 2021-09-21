@@ -12,8 +12,8 @@ constructor(
     private val psPlusGamesService: PsPlusGamesService
 ): PsPlusGamesRepository {
 
-    override fun getListByDateInMilis(timeInMili: Long): List<GameListItemDto> =
-        psPlusGamesService.getGamesListByMilis(timeInMili).execute().body() ?: listOf()
+    override fun getListByDateInMillis(dateInMillis: Long): List<GameListItemDto> =
+        psPlusGamesService.getGamesListByMillis(dateInMillis).execute().body() ?: listOf()
 
     override fun getGameDetails(id: Int): GameDetailsDto? =
         psPlusGamesService.getGamesDetails(id).execute().body()

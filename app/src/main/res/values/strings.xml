@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FreePsPlusGamesNotifier</string>
+    <string name="add_month_on_list">Następny</string>
+    <string name="subtract_month_on_list">Poprzedni</string>
 </resources>

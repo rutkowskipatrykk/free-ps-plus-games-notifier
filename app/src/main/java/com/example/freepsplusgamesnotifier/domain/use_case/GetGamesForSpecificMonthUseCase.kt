@@ -13,11 +13,11 @@ class GetGamesForSpecificMonthUseCase
 @Inject
 constructor(private val psPlusGamesRepository: PsPlusGamesRepository) {
 
-    operator fun invoke(dateInMilis: Long) =
+    operator fun invoke(dateInMillis: Long) =
         Flowable.create(FlowableOnSubscribe<Resource<List<GameListItem>>> { emitter ->
             emitter.onNext(Resource.Loading())
             try {
-                val games = psPlusGamesRepository.getListByDateInMilis(dateInMilis)
+                val games = psPlusGamesRepository.getListByDateInMillis(dateInMillis)
                     .map { it.toGameListItem() }
                 emitter.onNext(Resource.Success(games))
                 emitter.onComplete()

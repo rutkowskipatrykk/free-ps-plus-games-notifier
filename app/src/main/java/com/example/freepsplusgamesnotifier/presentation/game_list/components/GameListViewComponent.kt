@@ -10,22 +10,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.freepsplusgamesnotifier.Screen
+import com.example.freepsplusgamesnotifier.domain.model.GameListItem
 
 @Composable
-fun SingleGameListElement(gameName: String, navController: NavController) {
+fun SingleGameListElement(gameListItem: GameListItem, navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { },
+            .clickable {
+                navController.navigate(Screen.GameDetailsScreen.generateGameDetailsPath(gameListItem.id))
+            },
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Text(text = gameName)
-        Text(text = gameName)
+        Text(text = gameListItem.name)
+        Text(text = gameListItem.name)
     }
 }
 
 @Composable
 @Preview
 fun SingleGamesListElementPreview() {
-    SingleGameListElement(gameName = "Test", rememberNavController())
+    SingleGameListElement(
+        gameListItem = GameListItem(0, "TestowaGra", "", ""),
+        rememberNavController()
+    )
 }

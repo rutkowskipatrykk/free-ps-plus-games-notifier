@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface PsPlusGamesService {
 
     @GET("/test/gameInfoListByDate")
-    fun getGamesListByMilis(@Query("currentDate") timeInMilis: Long): Call<List<GameListItemDto>>
+    fun getGamesListByMillis(@Query("currentDate") timeInMillis: Long): Call<List<GameListItemDto>>
 
     @GET("TODO")
     fun getGamesDetails(id: Int): Call<GameDetailsDto>
