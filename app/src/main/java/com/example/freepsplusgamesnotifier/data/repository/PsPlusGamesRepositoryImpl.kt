@@ -13,7 +13,7 @@ constructor(
 ): PsPlusGamesRepository {
 
     override fun getListByDateInMillis(dateInMillis: Long): List<GameListItemDto> =
-        psPlusGamesService.getGamesListByMillis(dateInMillis).execute().body() ?: listOf()
+        psPlusGamesService.getGamesListByMillis(dateInMillis, "PAL").execute().body() ?: listOf()
 
     override fun getGameDetails(id: Int): GameDetailsDto? =
         psPlusGamesService.getGamesDetails(id).execute().body()

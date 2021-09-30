@@ -45,7 +45,7 @@ constructor(
     }
 
     fun convertIntDateToString(): String =
-        SimpleDateFormat("MMMMM yyyy").format(date.time)
+        SimpleDateFormat("MMMM yyyy").format(date.time)
 
     private fun getGameListForDate() {
         getGamesForSpecificMonthUseCase(date.timeInMillis)
