@@ -5,6 +5,5 @@ data class GameListItem (
     val name: String,
     val totalRating: String,
     val cover: String,
-    val platforms: String,
-    val developer: String
+    val platforms: String
 )

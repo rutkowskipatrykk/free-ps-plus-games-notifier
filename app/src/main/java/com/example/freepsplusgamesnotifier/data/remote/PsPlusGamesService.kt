@@ -4,17 +4,17 @@ import com.example.freepsplusgamesnotifier.data.remote.dto.GameDetailsDto
 import com.example.freepsplusgamesnotifier.data.remote.dto.GameListItemDto
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface PsPlusGamesService {
 
-    @GET("/GameListByDate/GetGameListByDate")
+    @GET("/game-list/{date}")
     fun getGamesListByMillis(
-        @Query("date") date: Long,
-        @Query("region") region: String
+        @Path("date") date: Long
     ): Call<List<GameListItemDto>>
 
-    @GET("TODO")
-    fun getGamesDetails(id: Int): Call<GameDetailsDto>
+    @GET("/game/{id}")
+    fun getGamesDetails(@Path("id") id: Int): Call<GameDetailsDto>
 
 }

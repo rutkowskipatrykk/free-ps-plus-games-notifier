@@ -39,7 +39,6 @@ class MainActivity : ComponentActivity() {
                                 backStackEntry.arguments?.getInt(GAME_ID_ARGUMENT)
                             )
                         }
-
                     }
                 }
             }

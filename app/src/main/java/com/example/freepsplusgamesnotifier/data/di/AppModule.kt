@@ -39,7 +39,6 @@ class AppModule {
                     val request = chain
                         .request()
                         .newBuilder()
-                        .header("Ocp-Apim-Subscription-Key", "425e5d8d51814f1b906ef082aab41ecb")
                         .build()
                     return chain.proceed(request)
                 }

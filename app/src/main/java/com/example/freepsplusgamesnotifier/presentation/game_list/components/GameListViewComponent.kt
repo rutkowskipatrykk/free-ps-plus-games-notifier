@@ -32,7 +32,7 @@ fun SingleGameListElement(gameListItem: GameListItem, navController: NavControll
 @Preview
 fun SingleGamesListElementPreview() {
     SingleGameListElement(
-        gameListItem = GameListItem(0, "TestowaGra", "", "", "", ""),
+        gameListItem = GameListItem(0, "TestowaGra", "", "", ""),
         rememberNavController()
     )
 }

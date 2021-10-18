@@ -7,16 +7,14 @@ data class GameListItemDto(
     val name: String,
     val totalRating: String,
     val cover: String,
-    val platforms: String,
-    val developer: String
+    val platforms: String
 )
 
 fun GameListItemDto.toGameListItem() =
     GameListItem(
         id = id,
         name = name,
-        totalRating = totalRating,
+        totalRating = "5",
         cover = cover,
-        platforms = platforms,
-        developer = developer
+        platforms = platforms
     )

@@ -13,19 +13,20 @@ class GetGamesDetailsUseCase
 @Inject
 constructor(private val repository: PsPlusGamesRepository) {
 
-    operator fun invoke(gameId: Int) = Flowable.create<Resource<Game>>({ emitter ->
-        emitter.onNext(Resource.Loading())
-        try {
-            val game = repository.getGameDetails(gameId)?.toGame()
-            if (game != null) {
-                emitter.onNext(Resource.Success(game))
-            } else {
-                emitter.onError(NoGameWasFoundException())
+    operator fun invoke(gameId: Int): Flowable<Resource<Game>> =
+        Flowable.create({ emitter ->
+            emitter.onNext(Resource.Loading())
+            try {
+                val game = repository.getGameDetails(gameId)?.toGame()
+                if (game != null) {
+                    emitter.onNext(Resource.Success(game))
+                } else {
+                    emitter.onError(NoGameWasFoundException())
+                }
+                emitter.onComplete()
+            } catch (e: Exception) {
+                emitter.onError(e)
             }
-            emitter.onComplete()
-        } catch (e: Exception) {
-            emitter.onError(e)
-        }
-    }, BackpressureStrategy.BUFFER)
+        }, BackpressureStrategy.BUFFER)
 
 }
