@@ -24,11 +24,17 @@ constructor(
     private val subtractMonthToGivenDateUseCase: SubtractMonthToGivenDateUseCase
 ) : ViewModel() {
 
+    private var date: Calendar = Calendar.getInstance()
+
     private val _gameListState = mutableStateOf(GameListState())
     val gameListState: State<GameListState>
         get() = _gameListState
 
-    private var date: Calendar = Calendar.getInstance()
+    private val _displayDate = mutableStateOf(convertIntDateToString())
+    val displayDate: State<String>
+        get() = _displayDate
+
+    val searchedGame = mutableStateOf("")
 
     init {
         getGameListForDate()
@@ -36,15 +42,17 @@ constructor(
 
     fun addMonth() {
         date = addMonthToGivenDateUseCase(date)
+        _displayDate.value = convertIntDateToString()
         getGameListForDate()
     }
 
     fun subtractMonth() {
         date = subtractMonthToGivenDateUseCase(date)
+        _displayDate.value = convertIntDateToString()
         getGameListForDate()
     }
 
-    fun convertIntDateToString(): String =
+    private fun convertIntDateToString(): String =
         SimpleDateFormat("MMMM yyyy").format(date.time)
 
     private fun getGameListForDate() {

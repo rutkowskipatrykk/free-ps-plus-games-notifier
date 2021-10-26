@@ -1,38 +1,92 @@
 package com.example.freepsplusgamesnotifier.presentation.game_list.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.example.freepsplusgamesnotifier.Screen
+import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
 import com.example.freepsplusgamesnotifier.domain.model.GameListItem
 
 @Composable
-fun SingleGameListElement(gameListItem: GameListItem, navController: NavController) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                navController.navigate(Screen.GameDetailsScreen.generateGameDetailsPath(gameListItem.id))
-            },
-        horizontalArrangement = Arrangement.SpaceBetween,
+fun GameTile(
+    game: GameListItem,
+    modifier: Modifier = Modifier,
+    onClickTile: (() -> Unit)? = null
+) {
+    Box(
+        Modifier
+            .width(190.dp)
+            .height(330.dp)
+            .padding(8.dp)
     ) {
-        Text(text = gameListItem.name)
-        Text(text = gameListItem.name)
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(145.dp)
+                .align(Alignment.BottomCenter)
+                .clickable {
+                    onClickTile?.invoke()
+                }
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+            ) {
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(8.dp)
+                        .height(55.dp)
+                        .fillMaxWidth(),
+                ) {
+                    RateArc(game.totalRating.toInt(), Color.White)
+                    Text(
+                        text = game.name,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 3,
+                        style = MaterialTheme.typography.body1,
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .fillMaxWidth()
+                    )
+                }
+            }
+        }
+        Card(
+            modifier
+                .width(150.dp)
+                .height(220.dp)
+                .align(Alignment.TopCenter)
+                .clickable {
+                    onClickTile?.invoke()
+                },
+            shape = MaterialTheme.shapes.large,
+            elevation = 8.dp,
+        ) {
+            game.cover.replace("//images", "https://images").let {
+                Image(
+                    painter = rememberImagePainter(it),
+                    modifier = Modifier.fillMaxSize(),
+                    contentDescription = "",
+                    contentScale = ContentScale.FillBounds
+                )
+            }
+        }
     }
 }
 
-@Composable
 @Preview
-fun SingleGamesListElementPreview() {
-    SingleGameListElement(
-        gameListItem = GameListItem(0, "TestowaGra", "", "", ""),
-        rememberNavController()
-    )
+@Composable
+fun GameTilePreview() {
+    GameTile(GameListItem(0, "Testtest", "99", "", ""))
 }

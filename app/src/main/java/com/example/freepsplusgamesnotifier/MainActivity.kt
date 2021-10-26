@@ -12,8 +12,10 @@ import com.example.freepsplusgamesnotifier.Screen.Companion.GAME_ID_ARGUMENT
 import com.example.freepsplusgamesnotifier.presentation.game_details.components.GameDetailsScreen
 import com.example.freepsplusgamesnotifier.presentation.game_list.components.MainScreenList
 import com.example.freepsplusgamesnotifier.ui.theme.FreePsPlusGamesNotifierTheme
+import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalPagerApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
