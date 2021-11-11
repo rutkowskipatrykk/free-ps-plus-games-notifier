@@ -130,7 +130,7 @@ fun ListContent(state: GameListState, navController: NavController) {
             Column {
                 GameList(
                     state.data,
-                    stringResource(id = R.string.right_now_you_can_get),
+                    "",
                     navController
                 )
             }

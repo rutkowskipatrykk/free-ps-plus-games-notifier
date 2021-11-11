@@ -3,4 +3,6 @@
     <string name="check_was_game_available">Check if game was available in PS+</string>
     <string name="right_now_you_can_get">Right now you can get</string>
     <string name="welcome">Welcome!</string>
+    <string name="trophies">Trophies</string>
+    <string name="show_more">Show more</string>
 </resources>

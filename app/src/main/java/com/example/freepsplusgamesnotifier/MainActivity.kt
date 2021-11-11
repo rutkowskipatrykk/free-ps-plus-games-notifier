@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.freepsplusgamesnotifier.Screen.Companion.GAME_ID_ARGUMENT
-import com.example.freepsplusgamesnotifier.presentation.game_details.components.GameDetailsScreen
+import com.example.freepsplusgamesnotifier.presentation.game_details.components.GameDetailsScreenInit
 import com.example.freepsplusgamesnotifier.presentation.game_list.components.MainScreenList
 import com.example.freepsplusgamesnotifier.ui.theme.FreePsPlusGamesNotifierTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -37,8 +37,9 @@ class MainActivity : ComponentActivity() {
                             route = Screen.GameDetailsScreen.route,
                             arguments = Screen.GameDetailsScreen.arguments
                         ) { backStackEntry ->
-                            GameDetailsScreen(
-                                backStackEntry.arguments?.getInt(GAME_ID_ARGUMENT)
+                            GameDetailsScreenInit(
+                                backStackEntry.arguments?.getInt(GAME_ID_ARGUMENT),
+                                navController
                             )
                         }
                     }

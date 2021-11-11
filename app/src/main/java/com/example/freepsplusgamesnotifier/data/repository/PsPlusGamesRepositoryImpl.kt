@@ -3,6 +3,7 @@ package com.example.freepsplusgamesnotifier.data.repository
 import com.example.freepsplusgamesnotifier.data.remote.PsPlusGamesService
 import com.example.freepsplusgamesnotifier.data.remote.dto.GameDetailsDto
 import com.example.freepsplusgamesnotifier.data.remote.dto.GameListItemDto
+import com.example.freepsplusgamesnotifier.data.remote.dto.TrophyDto
 import com.example.freepsplusgamesnotifier.domain.repository.PsPlusGamesRepository
 import javax.inject.Inject
 
@@ -17,5 +18,8 @@ constructor(
 
     override fun getGameDetails(id: Int): GameDetailsDto? =
         psPlusGamesService.getGamesDetails(id).execute().body()
+
+    override fun getGameTrophies(id: Int): List<TrophyDto>? =
+        psPlusGamesService.getGameTrophies(id).execute().body()
 
 }
