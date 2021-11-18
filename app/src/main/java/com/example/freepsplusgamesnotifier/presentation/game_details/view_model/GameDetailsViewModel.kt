@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.freepsplusgamesnotifier.R
 import com.example.freepsplusgamesnotifier.common.Resource
 import com.example.freepsplusgamesnotifier.data.remote.dto.PlatformType
 import com.example.freepsplusgamesnotifier.domain.model.Game
@@ -39,6 +40,10 @@ constructor(
     private val _gameState = mutableStateOf(GameState())
     val gameState: State<GameState>
         get() = _gameState
+
+    private val _isListHorizontal = mutableStateOf(true)
+    val isListHorizontal: State<Boolean>
+        get() = _isListHorizontal
 
     val platformList: List<PlatformType>
         get() {
@@ -93,6 +98,12 @@ constructor(
         intent.flags = FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)
     }
+
+    fun changeListDirection() {
+        _isListHorizontal.value = !_isListHorizontal.value
+    }
+
+    fun getButtonText() = if (_isListHorizontal.value) R.string.show_more else R.string.show_less
 
     private fun fetchData() {
         Flowable.zip(

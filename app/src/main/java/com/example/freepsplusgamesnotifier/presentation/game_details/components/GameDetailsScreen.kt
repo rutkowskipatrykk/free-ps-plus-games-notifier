@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +14,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -26,7 +24,6 @@ import com.example.freepsplusgamesnotifier.common.BaseToolbarScreen
 import com.example.freepsplusgamesnotifier.domain.model.Game
 import com.example.freepsplusgamesnotifier.domain.model.GameDetailsData
 import com.example.freepsplusgamesnotifier.presentation.game_details.view_model.GameDetailsViewModel
-import timber.log.Timber
 import java.lang.Float.min
 
 private val paddingForCoverHeader = 166.dp
@@ -200,19 +197,36 @@ fun GameDetailsCard(
                 )
             }
             if (gameDetails.trophies != null && gameDetails.trophies.isNotEmpty()) {
-                if (gameDetails.trophies.isNotEmpty()) {
-                    TrophyList(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(padding8dp),
-                        {
-                            Timber.d("On More click")
-                        },
-                        gameDetails.trophies
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.trophies),
+                        style = MaterialTheme.typography.h2,
                     )
+                    TextButton(onClick = {
+                        viewModel.changeListDirection()
+                    }) {
+                        Text(stringResource(id = viewModel.getButtonText()))
+                    }
+                }
+                if (gameDetails.trophies.isNotEmpty()) {
+                    if (viewModel.isListHorizontal.value) {
+                        HorizontalTrophyList(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(padding8dp),
+                            gameDetails.trophies
+                        )
+                    } else {
+                        VerticalTrophyList(trophies = gameDetails.trophies)
+                    }
                 }
             }
-
         }
     }
 }
