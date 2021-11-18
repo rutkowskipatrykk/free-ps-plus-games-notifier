@@ -57,7 +57,7 @@ fun GameScreen(
             }
         }
         gameState.data != null -> {
-            BaseToolbarScreen(navigator) {
+            BaseToolbarScreen(navigator, gameState.data.game.name) {
                 GameDetailsContent(gameState.data)
             }
         }
