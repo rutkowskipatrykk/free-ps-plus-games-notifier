@@ -93,7 +93,7 @@ fun GameDetailsContent(gameDetails: GameDetailsData) {
             .width(150.dp)
             .height(230.dp)
             .graphicsLayer {
-                alpha = min(1f, 1 - (scrollState.value / 600f))
+                alpha = min(1f, 1 - (scrollState.value / 400f))
                 translationY = -scrollState.value * 0.1f
             })
     }

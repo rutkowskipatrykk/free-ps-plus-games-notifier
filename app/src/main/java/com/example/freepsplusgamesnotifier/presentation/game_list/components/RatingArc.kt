@@ -2,10 +2,7 @@ package com.example.freepsplusgamesnotifier.presentation.game_list.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,7 +11,10 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import java.time.format.TextStyle
 
 private const val LOW_RATE_LEVEL = 50
 private const val MIDDLE_RATE_LEVEL = 80
@@ -23,7 +23,7 @@ private const val MIDDLE_RATE_LEVEL = 80
 fun RateArc(rate: Int, backgroundColor: Color, modifier: Modifier = Modifier) {
     val color = when {
         rate < LOW_RATE_LEVEL -> Color.Red
-        rate < MIDDLE_RATE_LEVEL -> Color.Yellow
+        rate < MIDDLE_RATE_LEVEL -> Color(255,165,0)
         else -> Color.Green
     }
     Box(modifier = modifier) {
@@ -45,6 +45,7 @@ fun RateArc(rate: Int, backgroundColor: Color, modifier: Modifier = Modifier) {
         Text(
             text = "%",
             color = color,
+            fontSize = 14.sp,
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .background(backgroundColor)

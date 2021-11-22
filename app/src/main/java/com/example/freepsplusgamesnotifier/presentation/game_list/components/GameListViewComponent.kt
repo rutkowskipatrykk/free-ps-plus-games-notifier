@@ -49,7 +49,9 @@ fun GameTile(
                         .height(55.dp)
                         .fillMaxWidth(),
                 ) {
-                    RateArc(game.totalRating.toInt(), Color.White)
+                    if (game.rating > 0) {
+                        RateArc(game.rating.toInt(), Color.White)
+                    }
                     Text(
                         text = game.name,
                         overflow = TextOverflow.Ellipsis,
@@ -73,7 +75,7 @@ fun GameTile(
             shape = MaterialTheme.shapes.large,
             elevation = 8.dp,
         ) {
-            game.cover.replace("//images", "https://images").let {
+            game.cover?.replace("//images", "https://images").let {
                 Image(
                     painter = rememberImagePainter(it),
                     modifier = Modifier.fillMaxSize(),
@@ -88,5 +90,5 @@ fun GameTile(
 @Preview
 @Composable
 fun GameTilePreview() {
-    GameTile(GameListItem(0, "Testtest", "99", "", ""))
+    GameTile(GameListItem(0, "Testtest", 99.0, "", ""))
 }
