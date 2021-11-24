@@ -1,10 +1,10 @@
 package com.example.freepsplusgamesnotifier.presentation.game_list.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
@@ -24,6 +25,7 @@ import androidx.navigation.NavController
 import com.example.freepsplusgamesnotifier.R
 import com.example.freepsplusgamesnotifier.Screen
 import com.example.freepsplusgamesnotifier.domain.model.GameListItem
+import com.example.freepsplusgamesnotifier.domain.model.ListMode
 import com.example.freepsplusgamesnotifier.presentation.game_list.GameListState
 import com.example.freepsplusgamesnotifier.presentation.game_list.view_model.GameListViewModel
 
@@ -41,10 +43,16 @@ fun MainScreenList(
             Header()
             Card(
                 backgroundColor = MaterialTheme.colors.background,
-                modifier = Modifier.fillMaxHeight(),
+                modifier = Modifier.fillMaxSize(),
                 shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
             ) {
-                ListContent(viewModel.gameListState.value, navController)
+                ListContent(viewModel.gameListState.value, {
+                    navController.navigate(
+                        Screen.GameDetailsScreen.generateGameDetailsPath(
+                            it
+                        )
+                    )
+                })
             }
         }
     }
@@ -117,7 +125,11 @@ fun MonthChooser(
 }
 
 @Composable
-fun ListContent(state: GameListState, navController: NavController) {
+fun ListContent(
+    state: GameListState,
+    onClickGame: (id: Int) -> Unit,
+    viewModel: GameListViewModel = hiltViewModel()
+) {
     when {
         state.isLoading -> {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -127,12 +139,31 @@ fun ListContent(state: GameListState, navController: NavController) {
         state.error?.isNotEmpty() == true -> {
         }
         state.data != null -> {
-            Column {
-                GameList(
-                    state.data,
-                    "",
-                    navController
-                )
+            LazyColumn {
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Image(
+                            painter = painterResource(id = viewModel.oppositeListIcon.value),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .size(48.dp)
+                                .clickable {
+                                    viewModel.changeOrientation()
+                                }
+                        )
+                    }
+                }
+                item {
+                    GameList(
+                        state.data,
+                        onClickGame
+                    )
+                }
             }
         }
         else -> {
@@ -170,24 +201,44 @@ fun SearchBar(
 @Composable
 fun GameList(
     games: List<GameListItem>,
-    listTitle: String,
-    navController: NavController,
-    modifier: Modifier = Modifier
+    onClickGame: (id: Int) -> Unit,
+    viewModel: GameListViewModel = hiltViewModel()
 ) {
-    if (listTitle.isNotBlank()) {
-        Text(text = listTitle, style = MaterialTheme.typography.h1)
+    if (viewModel.listModeMode.value == ListMode.TILE) {
+        VerticalGameList(games, onClickGame)
+    } else {
+        HorizontalGameList(games, onClickGame)
     }
-    LazyRow(
-        modifier = modifier
-            .fillMaxWidth(),
-    ) {
-        items(games) { game ->
-            GameTile(game, Modifier.padding(16.dp)) {
-                navController.navigate(
-                    Screen.GameDetailsScreen.generateGameDetailsPath(
-                        game.id
-                    )
-                )
+}
+
+@Composable
+fun VerticalGameList(
+    games: List<GameListItem>,
+    onClickGame: (id: Int) -> Unit
+) {
+    games.chunked(2).forEach { gameListOfTwo ->
+        RowOfTwoGames(gameListOfTwo, onClickGame)
+    }
+}
+
+@Composable
+fun HorizontalGameList(
+    games: List<GameListItem>,
+    onClickGame: (id: Int) -> Unit
+) {
+    games.forEach { game ->
+        HorizontalGameTile(game, Modifier.padding(16.dp)) {
+            onClickGame.invoke(game.id)
+        }
+    }
+}
+
+@Composable
+fun RowOfTwoGames(games: List<GameListItem>, onClickGame: (id: Int) -> Unit) {
+    Row {
+        games.forEach { game ->
+            VerticalGameTile(game, Modifier.padding(16.dp)) {
+                onClickGame.invoke(game.id)
             }
         }
     }

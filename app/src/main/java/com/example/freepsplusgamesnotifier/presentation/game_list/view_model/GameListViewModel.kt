@@ -1,9 +1,12 @@
 package com.example.freepsplusgamesnotifier.presentation.game_list.view_model
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.freepsplusgamesnotifier.R
 import com.example.freepsplusgamesnotifier.common.Resource
+import com.example.freepsplusgamesnotifier.domain.model.ListMode
 import com.example.freepsplusgamesnotifier.domain.use_case.AddMonthToGivenDateUseCase
 import com.example.freepsplusgamesnotifier.domain.use_case.GetGamesForSpecificMonthUseCase
 import com.example.freepsplusgamesnotifier.domain.use_case.SubtractMonthToGivenDateUseCase
@@ -34,9 +37,18 @@ constructor(
     val displayDate: State<String>
         get() = _displayDate
 
+    private val _listOrientationMode = mutableStateOf(ListMode.TILE)
+    val listModeMode: State<ListMode>
+        get() = _listOrientationMode
+
+    private val _oppositeListIcon: MutableState<Int> = mutableStateOf(-1)
+    val oppositeListIcon: State<Int>
+        get() = _oppositeListIcon
+
     val searchedGame = mutableStateOf("")
 
     init {
+        setListOrientation(ListMode.LIST)
         getGameListForDate()
     }
 
@@ -50,6 +62,23 @@ constructor(
         date = subtractMonthToGivenDateUseCase(date)
         _displayDate.value = convertIntDateToString()
         getGameListForDate()
+    }
+
+    fun changeOrientation() {
+        if (_listOrientationMode.value == ListMode.LIST) {
+            setListOrientation(ListMode.TILE)
+        } else {
+            setListOrientation(ListMode.LIST)
+        }
+    }
+
+    private fun setListOrientation(listMode: ListMode) {
+        _listOrientationMode.value = listMode
+        _oppositeListIcon.value = if (listMode == ListMode.LIST) {
+            R.drawable.ic_baseline_view_module_24
+        } else {
+            R.drawable.ic_baseline_view_list_24
+        }
     }
 
     private fun convertIntDateToString(): String =
