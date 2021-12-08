@@ -2,6 +2,7 @@ package com.example.freepsplusgamesnotifier.data.remote
 
 import com.example.freepsplusgamesnotifier.data.remote.dto.GameDetailsDto
 import com.example.freepsplusgamesnotifier.data.remote.dto.GameListItemDto
+import com.example.freepsplusgamesnotifier.data.remote.dto.SearchedGameDto
 import com.example.freepsplusgamesnotifier.data.remote.dto.TrophyDto
 import retrofit2.Call
 import retrofit2.http.GET
@@ -20,5 +21,8 @@ interface PsPlusGamesService {
 
     @GET("/game/{id}/trophies")
     fun getGameTrophies(@Path("id") id: Int): Call<List<TrophyDto>>
+
+    @GET("/search/{search_game}")
+    fun getSearchedGames(@Path("search_game") searchGame: String): Call<List<SearchedGameDto>>
 
 }

@@ -186,7 +186,7 @@ fun GameDetailsCard(
                 viewModel::searchInMetacritic,
             )
             PlatformList(
-                Modifier.padding(start = padding8dp, top = padding8dp),
+                Modifier.padding(start = padding8dp, top = 16.dp),
                 viewModel.platformList
             )
             gameDetails.game.summary?.let {

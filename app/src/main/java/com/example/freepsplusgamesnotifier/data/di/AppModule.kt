@@ -5,6 +5,10 @@ import com.example.freepsplusgamesnotifier.common.Consts.API_BASE_URL
 import com.example.freepsplusgamesnotifier.data.remote.PsPlusGamesService
 import com.example.freepsplusgamesnotifier.data.repository.PsPlusGamesRepositoryImpl
 import com.example.freepsplusgamesnotifier.domain.repository.PsPlusGamesRepository
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +19,8 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.reflect.Type
+import java.util.*
 import javax.inject.Singleton
 
 @Module
@@ -44,12 +50,23 @@ class AppModule {
                 }
             })
 
+        val gson = GsonBuilder().apply {
+            registerTypeAdapter(Date::class.java, object : JsonDeserializer<Date> {
+                override fun deserialize(
+                    json: JsonElement?,
+                    typeOfT: Type?,
+                    context: JsonDeserializationContext?
+                ): Date {
+                    return Date(json?.asJsonPrimitive?.asLong!!)
+                }
+            })
+        }.create()
 
         val client = httpClient.build()
         return Retrofit.Builder()
             .baseUrl(API_BASE_URL)
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(PsPlusGamesService::class.java)
     }

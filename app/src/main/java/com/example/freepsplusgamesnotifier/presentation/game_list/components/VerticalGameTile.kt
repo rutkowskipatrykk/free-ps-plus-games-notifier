@@ -90,5 +90,5 @@ fun VerticalGameTile(
 @Preview
 @Composable
 fun VerticalGameTilePreview() {
-    GameTile(GameListItem(0, "Testtest", 99.0, "", ""))
+    GameTile(GameListItem.getMockItem())
 }

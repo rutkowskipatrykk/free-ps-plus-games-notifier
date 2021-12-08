@@ -17,5 +17,6 @@ sealed class Screen(val route: String, val arguments: List<NamedNavArgument> = l
     ) {
         fun generateGameDetailsPath(gameId: Int) = "game_details_screen/$gameId"
     }
+    object GameSearchScreen: Screen("game_search")
 
 }

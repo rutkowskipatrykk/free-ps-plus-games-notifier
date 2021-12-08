@@ -90,5 +90,5 @@ fun GameTile(
 @Preview
 @Composable
 fun GameTilePreview() {
-    GameTile(GameListItem(0, "Testtest", 99.0, "", ""))
+    GameTile(GameListItem.getMockItem())
 }

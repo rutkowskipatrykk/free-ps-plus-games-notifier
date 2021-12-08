@@ -4,25 +4,25 @@ import androidx.annotation.DrawableRes
 import com.example.freepsplusgamesnotifier.R
 import com.google.gson.annotations.SerializedName
 
-enum class PlatformType(@DrawableRes val iconRes: Int) {
+enum class PlatformType(val platformTitle: String) {
     @SerializedName("PSP")
-    PSP(R.drawable.psp_logo),
+    PSP("PSP"),
 
     @SerializedName("PS3")
-    PS3(R.drawable.ps3_logo),
+    PS3("PS3"),
 
     @SerializedName("PS4")
-    PS4(R.drawable.ps4_logo),
+    PS4("PS4"),
 
     @SerializedName("PS5")
-    PS5(R.drawable.ps5_logo),
+    PS5("PS5"),
 
     @SerializedName("VITA")
-    VITA(R.drawable.psvita_logo),
+    VITA("VITA"),
 
     @SerializedName("PS_TV")
-    PS_TV(R.drawable.ps_tv_logo),
+    PS_TV("PS_TV"),
 
     @SerializedName("PS_VR")
-    PS_VR(R.drawable.ps_vr_logo)
+    PS_VR("PS_VR")
 }

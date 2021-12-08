@@ -10,10 +10,11 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -40,7 +41,9 @@ fun MainScreenList(
             .background(MaterialTheme.colors.primary)
     ) {
         Column {
-            Header()
+            Header({
+                navController.navigate(Screen.GameSearchScreen.route)
+            })
             Card(
                 backgroundColor = MaterialTheme.colors.background,
                 modifier = Modifier.fillMaxSize(),
@@ -59,7 +62,10 @@ fun MainScreenList(
 }
 
 @Composable
-fun Header(viewModel: GameListViewModel = hiltViewModel()) {
+fun Header(
+    onSearchBarClick: (() -> Unit)? = null,
+    viewModel: GameListViewModel = hiltViewModel()
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -76,10 +82,7 @@ fun Header(viewModel: GameListViewModel = hiltViewModel()) {
             color = MaterialTheme.colors.background
         )
         Spacer(modifier = Modifier.size(24.dp))
-        SearchBar(
-            viewModel.searchedGame.value,
-            { viewModel.searchedGame.value = it }
-        )
+        SearchButton(onSearchBarClick)
         Spacer(modifier = Modifier.size(24.dp))
     }
 }
@@ -173,32 +176,6 @@ fun ListContent(
 }
 
 @Composable
-fun SearchBar(
-    searchedValue: String,
-    onSearchedGamesChanged: ((String) -> Unit),
-    modifier: Modifier = Modifier
-) {
-    TextField(
-        value = searchedValue,
-        onValueChange = onSearchedGamesChanged,
-        shape = MaterialTheme.shapes.medium,
-        leadingIcon = { Icon(Icons.Rounded.Search, null) },
-        label = {
-            Text(stringResource(id = R.string.check_was_game_available))
-        },
-        modifier = modifier
-            .fillMaxWidth(),
-        maxLines = 1,
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = MaterialTheme.colors.background,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
-        )
-    )
-}
-
-@Composable
 fun GameList(
     games: List<GameListItem>,
     onClickGame: (id: Int) -> Unit,
@@ -227,7 +204,7 @@ fun HorizontalGameList(
     onClickGame: (id: Int) -> Unit
 ) {
     games.forEach { game ->
-        HorizontalGameTile(game, Modifier.padding(16.dp)) {
+        HorizontalGameTile(game.name, game.rating, game.cover, Modifier.padding(16.dp)) {
             onClickGame.invoke(game.id)
         }
     }
@@ -244,14 +221,38 @@ fun RowOfTwoGames(games: List<GameListItem>, onClickGame: (id: Int) -> Unit) {
     }
 }
 
-@Preview
 @Composable
-fun SearchBarPreview() {
-    SearchBar("", {})
+fun SearchButton(onSearchBarClick: (() -> Unit)? = null) {
+    Row(
+        modifier = Modifier
+            .clip(MaterialTheme.shapes.medium)
+            .fillMaxWidth()
+            .background(Color.White)
+            .clickable { onSearchBarClick?.invoke() }
+            .padding(vertical = 8.dp, horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            modifier = Modifier.padding(end = 8.dp),
+            imageVector = Icons.Filled.Search,
+            contentDescription = "Search"
+        )
+        Text(
+            text = "Check if game was available on PSPlus",
+            color = Color.Black
+        )
+    }
 }
+
 
 @Preview
 @Composable
 fun MonthChooserPreview() {
     MonthChooser("Test")
+}
+
+@Preview
+@Composable
+fun SearchButtonPreview() {
+    SearchButton()
 }

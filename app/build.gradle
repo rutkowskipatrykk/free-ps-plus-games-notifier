@@ -74,6 +74,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager:$accompanist_pager"
     implementation "io.coil-kt:coil-compose:$coil_compose"
     implementation "androidx.constraintlayout:constraintlayout-compose:$constraintlayout_compose"
+    implementation "com.google.accompanist:accompanist-flowlayout:0.9.1"
 
     //di
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"

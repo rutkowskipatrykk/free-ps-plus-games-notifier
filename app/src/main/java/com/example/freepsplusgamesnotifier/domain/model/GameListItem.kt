@@ -6,4 +6,10 @@ data class GameListItem (
     val rating: Double,
     val cover: String?,
     val platforms: String
-)
+) {
+
+    companion object {
+        fun getMockItem() = GameListItem(0, "Testtest", 99.0, "", "")
+    }
+
+}

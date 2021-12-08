@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.freepsplusgamesnotifier.Screen.Companion.GAME_ID_ARGUMENT
 import com.example.freepsplusgamesnotifier.presentation.game_details.components.GameDetailsScreenInit
 import com.example.freepsplusgamesnotifier.presentation.game_list.components.MainScreenList
+import com.example.freepsplusgamesnotifier.presentation.search_game.components.SearchGameScreen
 import com.example.freepsplusgamesnotifier.ui.theme.FreePsPlusGamesNotifierTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +42,11 @@ class MainActivity : ComponentActivity() {
                                 backStackEntry.arguments?.getInt(GAME_ID_ARGUMENT),
                                 navController
                             )
+                        }
+                        composable(
+                            route = Screen.GameSearchScreen.route,
+                        ) {
+                            SearchGameScreen(navController)
                         }
                     }
                 }

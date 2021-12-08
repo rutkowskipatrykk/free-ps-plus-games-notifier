@@ -19,7 +19,9 @@ import com.example.freepsplusgamesnotifier.domain.model.GameListItem
 
 @Composable
 fun HorizontalGameTile(
-    game: GameListItem,
+    gameName: String,
+    gameRating: Double,
+    gameCover: String?,
     modifier: Modifier = Modifier,
     onClickTile: (() -> Unit)? = null
 ) {
@@ -42,7 +44,7 @@ fun HorizontalGameTile(
                     .padding(start = 160.dp, top = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
                 Text(
-                    text = game.name,
+                    text = gameName,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 3,
                     style = MaterialTheme.typography.body1,
@@ -56,8 +58,8 @@ fun HorizontalGameTile(
                         .align(Alignment.BottomCenter)
                         .fillMaxWidth(),
                 ) {
-                    if (game.rating > 0) {
-                        RateArc(game.rating.toInt(), Color.White)
+                    if (gameRating > 0) {
+                        RateArc(gameRating.toInt(), Color.White)
                     }
                 }
             }
@@ -74,7 +76,7 @@ fun HorizontalGameTile(
             shape = MaterialTheme.shapes.large,
             elevation = 8.dp,
         ) {
-            game.cover?.replace("//images", "https://images").let {
+            gameCover?.replace("//images", "https://images").let {
                 Image(
                     painter = rememberImagePainter(it),
                     modifier = Modifier.fillMaxSize(),
@@ -90,5 +92,5 @@ fun HorizontalGameTile(
 @Preview
 @Composable
 fun HorizontalGameTilePreview() {
-    VerticalGameTile(GameListItem(0, "Testtest", 99.0, "", ""))
+    VerticalGameTile(GameListItem.getMockItem())
 }
