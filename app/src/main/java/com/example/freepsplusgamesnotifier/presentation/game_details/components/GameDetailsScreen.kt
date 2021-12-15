@@ -21,9 +21,12 @@ import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.example.freepsplusgamesnotifier.R
 import com.example.freepsplusgamesnotifier.common.BaseToolbarScreen
+import com.example.freepsplusgamesnotifier.common.Consts.EMPTY_STRING
 import com.example.freepsplusgamesnotifier.domain.model.Game
 import com.example.freepsplusgamesnotifier.domain.model.GameDetailsData
+import com.example.freepsplusgamesnotifier.presentation.error_screen.ErrorScreen
 import com.example.freepsplusgamesnotifier.presentation.game_details.view_model.GameDetailsViewModel
+import com.example.freepsplusgamesnotifier.presentation.loading_screen.components.LoadingScreen
 import java.lang.Float.min
 
 private val paddingForCoverHeader = 166.dp
@@ -49,12 +52,10 @@ fun GameScreen(
     val gameState = gameDetailsViewModel.gameState.value
     when {
         gameState.isDownloading -> {
-            CircularProgressIndicator()
+            LoadingScreen()
         }
         gameState.error?.isNotEmpty() == true -> {
-            Box {
-                Text(text = "Error")
-            }
+            ErrorScreen(errorText = gameState.error)
         }
         gameState.data != null -> {
             BaseToolbarScreen(navigator, gameState.data.game.name) {
@@ -112,7 +113,7 @@ fun HeaderGameCover(game: Game, modifier: Modifier = Modifier) {
                     "https://images"
                 )
             ),
-            contentDescription = "",
+            contentDescription = EMPTY_STRING,
             modifier = Modifier
                 .fillMaxSize(),
             contentScale = ContentScale.FillBounds

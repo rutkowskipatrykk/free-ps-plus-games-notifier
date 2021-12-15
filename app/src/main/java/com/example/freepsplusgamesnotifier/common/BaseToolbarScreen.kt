@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.example.freepsplusgamesnotifier.R
+import com.example.freepsplusgamesnotifier.common.Consts.EMPTY_STRING
 
 @Composable
 fun BaseToolbarScreen(
@@ -27,7 +28,7 @@ fun BaseToolbarScreen(
                 navigationIcon = {
                     Image(
                         painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24),
-                        contentDescription = "",
+                        contentDescription = EMPTY_STRING,
                         modifier = Modifier.clickable {
                             navigator?.popBackStack()
                         }

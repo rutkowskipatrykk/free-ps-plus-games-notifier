@@ -1,33 +1,32 @@
 package com.example.freepsplusgamesnotifier.domain.use_case
 
-import com.example.freepsplusgamesnotifier.common.Resource
+import com.example.freepsplusgamesnotifier.common.exception.CallException
+import com.example.freepsplusgamesnotifier.common.use_case.BaseNetworkUseCase
+import com.example.freepsplusgamesnotifier.data.remote.dto.SearchedGameDto
 import com.example.freepsplusgamesnotifier.data.remote.dto.toSearchedGame
 import com.example.freepsplusgamesnotifier.domain.model.SearchedGame
 import com.example.freepsplusgamesnotifier.domain.repository.PsPlusGamesRepository
-import io.reactivex.rxjava3.core.BackpressureStrategy
-import io.reactivex.rxjava3.core.Flowable
+import retrofit2.Response
 import javax.inject.Inject
 
 class GetSearchedGamesUseCase
 @Inject
 constructor(
     private val repository: PsPlusGamesRepository
-) {
+) : BaseNetworkUseCase<List<SearchedGameDto>, List<SearchedGame>>() {
 
-    operator fun invoke(searchedGameName: String): Flowable<Resource<List<SearchedGame>>> =
-        Flowable.create(
-            { emitter ->
-                emitter.onNext(Resource.Loading())
-                try {
-                    val games = repository.searchGame(searchedGameName)?.map { it.toSearchedGame() }
-                    games?.let {
-                        emitter.onNext(Resource.Success(it))
-                    }
-                    emitter.onComplete()
-                } catch (e: Exception) {
-                    emitter.onError(e)
-                }
-            }, BackpressureStrategy.BUFFER
-        )
+    override fun handleData(data: List<SearchedGameDto>): List<SearchedGame> {
+        return data.map {
+            it.toSearchedGame()
+        }
+    }
+
+    override fun makeCall(arguments: Array<Any>): Response<List<SearchedGameDto>> {
+        if (arguments[0] is String) {
+            return repository.searchGame(arguments[0] as String)
+        } else {
+            throw CallException()
+        }
+    }
 
 }

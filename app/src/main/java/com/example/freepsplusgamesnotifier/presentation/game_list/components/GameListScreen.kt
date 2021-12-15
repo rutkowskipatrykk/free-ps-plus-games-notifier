@@ -25,10 +25,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.freepsplusgamesnotifier.R
 import com.example.freepsplusgamesnotifier.Screen
+import com.example.freepsplusgamesnotifier.common.Consts.EMPTY_STRING
 import com.example.freepsplusgamesnotifier.domain.model.GameListItem
 import com.example.freepsplusgamesnotifier.domain.model.ListMode
+import com.example.freepsplusgamesnotifier.presentation.error_screen.ErrorScreen
 import com.example.freepsplusgamesnotifier.presentation.game_list.GameListState
 import com.example.freepsplusgamesnotifier.presentation.game_list.view_model.GameListViewModel
+import com.example.freepsplusgamesnotifier.presentation.loading_screen.components.LoadingScreen
 
 @Composable
 fun MainScreenList(
@@ -100,7 +103,7 @@ fun MonthChooser(
     ) {
         Icon(
             Icons.Default.KeyboardArrowLeft,
-            contentDescription = "",
+            contentDescription = EMPTY_STRING,
             tint = MaterialTheme.colors.background,
             modifier = Modifier
                 .size(48.dp)
@@ -117,7 +120,7 @@ fun MonthChooser(
             )
         )
         Icon(Icons.Default.KeyboardArrowRight,
-            contentDescription = "",
+            contentDescription = EMPTY_STRING,
             tint = MaterialTheme.colors.background,
             modifier = Modifier
                 .size(48.dp)
@@ -135,11 +138,13 @@ fun ListContent(
 ) {
     when {
         state.isLoading -> {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
-            }
+            LoadingScreen()
         }
         state.error?.isNotEmpty() == true -> {
+            ErrorScreen(errorText = state.error)
+        }
+        state.data?.size == 0 -> {
+            ErrorScreen(errorText = stringResource(id = R.string.no_games_error))
         }
         state.data != null -> {
             LazyColumn {
@@ -152,7 +157,7 @@ fun ListContent(
                     ) {
                         Image(
                             painter = painterResource(id = viewModel.oppositeListIcon.value),
-                            contentDescription = "",
+                            contentDescription = EMPTY_STRING,
                             modifier = Modifier
                                 .size(48.dp)
                                 .clickable {
@@ -168,9 +173,6 @@ fun ListContent(
                     )
                 }
             }
-        }
-        else -> {
-
         }
     }
 }

@@ -7,6 +7,7 @@ import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.net.Uri
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import com.example.freepsplusgamesnotifier.R
 import com.example.freepsplusgamesnotifier.common.Resource
@@ -26,7 +27,6 @@ import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.net.URL
 import javax.inject.Inject
-
 
 @HiltViewModel
 class GameDetailsViewModel
@@ -49,7 +49,6 @@ constructor(
         get() {
             var platformList = listOf<PlatformType>()
             _gameState.value.data?.game?.platforms?.let {
-                //TODO - Changes in DB is needed
                 platformList = Gson().fromJson(
                     it,
                     object : TypeToken<List<PlatformType>>() {}.type
@@ -59,7 +58,7 @@ constructor(
         }
 
     private lateinit var gameDetailsFlowable: Flowable<Resource<Game>>
-    private lateinit var trophiesFlowable: Flowable<Resource<List<Trophy>?>>
+    private lateinit var trophiesFlowable: Flowable<Resource<List<Trophy>>>
 
     fun getDetails(gameId: Int) {
         _gameState.value = GameState(isDownloading = true)
@@ -72,7 +71,9 @@ constructor(
         val intent = Intent(Intent.ACTION_WEB_SEARCH)
         intent.putExtra(SearchManager.QUERY, _gameState.component1().data?.game?.name)
         intent.flags = FLAG_ACTIVITY_NEW_TASK
-        context.startActivity(intent)
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        }
     }
 
     fun searchInYoutube() {
@@ -80,7 +81,9 @@ constructor(
         intent.setPackage("com.google.android.youtube")
         intent.putExtra("query", _gameState.component1().data?.game?.name)
         intent.flags = FLAG_ACTIVITY_NEW_TASK
-        context.startActivity(intent)
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        }
     }
 
     fun searchInPsStore() {
@@ -88,7 +91,9 @@ constructor(
         intent.data =
             Uri.parse(URL("https://store.playstation.com/pl-pl/search/${_gameState.component1().data?.game?.name}").toString())
         intent.flags = FLAG_ACTIVITY_NEW_TASK
-        context.startActivity(intent)
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        }
     }
 
     fun searchInMetacritic() {
@@ -96,7 +101,9 @@ constructor(
         intent.data =
             Uri.parse(URL("https://www.metacritic.com/search/all/${_gameState.component1().data?.game?.name}/results").toString())
         intent.flags = FLAG_ACTIVITY_NEW_TASK
-        context.startActivity(intent)
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        }
     }
 
     fun changeListDirection() {
@@ -104,6 +111,7 @@ constructor(
     }
 
     fun getButtonText() = if (_isListHorizontal.value) R.string.show_more else R.string.show_less
+
 
     private fun fetchData() {
         Flowable.zip(
@@ -114,12 +122,12 @@ constructor(
                     GameState(isDownloading = true)
                 } else if (t1 is Resource.Success && t2 is Resource.Success) {
                     if (t1.data == null) {
-                        GameState(error = "")
+                        GameState(error = context.getString(R.string.error))
                     } else {
                         GameState(GameDetailsData(t1.data, t2.data))
                     }
                 } else {
-                    GameState(error = "")
+                    GameState(error = context.getString(R.string.error))
                 }
                 state
             })

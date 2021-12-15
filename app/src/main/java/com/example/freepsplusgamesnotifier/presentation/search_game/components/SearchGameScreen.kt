@@ -21,7 +21,9 @@ import com.example.freepsplusgamesnotifier.R
 import com.example.freepsplusgamesnotifier.Screen
 import com.example.freepsplusgamesnotifier.common.BaseToolbarScreen
 import com.example.freepsplusgamesnotifier.domain.model.SearchedGame
+import com.example.freepsplusgamesnotifier.presentation.error_screen.ErrorScreen
 import com.example.freepsplusgamesnotifier.presentation.game_list.components.HorizontalGameTile
+import com.example.freepsplusgamesnotifier.presentation.loading_screen.components.LoadingScreen
 import com.example.freepsplusgamesnotifier.presentation.search_game.view_model.SearchGameViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,26 +34,26 @@ fun SearchGameScreen(
     viewModel: SearchGameViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-    var text by remember { mutableStateOf("") }
     BaseToolbarScreen(
         title = "Search for games",
         navigator = navController
     )
     {
+        val searchedPhrase = remember { mutableStateOf(viewModel.phrase) }
         Column(
             Modifier
                 .fillMaxSize()
         ) {
-            SearchBar(searchedValue = text) {
-                text = it
-                viewModel.searchedPhrase.onNext(it)
+            SearchBar(searchedValue = searchedPhrase.value) {
+                searchedPhrase.value = it
+                viewModel.insertGame(it)
             }
             when {
                 state.isLoading -> {
-
+                    LoadingScreen()
                 }
-                state.error.isNotEmpty() -> {
-
+                state.error?.isNotEmpty() == true -> {
+                    ErrorScreen(state.error)
                 }
                 state.data != null -> {
                     Column(

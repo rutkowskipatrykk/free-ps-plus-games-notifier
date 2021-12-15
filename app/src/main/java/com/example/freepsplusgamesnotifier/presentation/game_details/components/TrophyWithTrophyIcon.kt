@@ -15,6 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import com.example.freepsplusgamesnotifier.common.Consts.EMPTY_STRING
 import com.example.freepsplusgamesnotifier.domain.model.Trophy
 
 private val padding16dp = 16.dp
@@ -24,7 +25,7 @@ fun TrophyWithTrophyIcon(modifier: Modifier = Modifier, trophy: Trophy, iconBack
     Box(modifier = modifier.width(96.dp)) {
         Image(
             painter = rememberImagePainter(trophy.image),
-            contentDescription = "",
+            contentDescription = EMPTY_STRING,
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(top = padding16dp)
@@ -34,7 +35,7 @@ fun TrophyWithTrophyIcon(modifier: Modifier = Modifier, trophy: Trophy, iconBack
         )
         Image(
             painter = painterResource(id = trophy.getTrophyIcon()),
-            "",
+            EMPTY_STRING,
             modifier = Modifier
                 .width(32.dp)
                 .height(32.dp)

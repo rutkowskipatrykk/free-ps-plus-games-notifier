@@ -6,4 +6,6 @@
     <string name="trophies">Trophies</string>
     <string name="show_more">Show more</string>
     <string name="show_less">Show less</string>
+    <string name="error">Something went wrong :(</string>
+    <string name="no_games_error">No games found for that month</string>
 </resources>

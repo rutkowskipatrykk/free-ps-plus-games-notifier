@@ -10,6 +10,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.freepsplusgamesnotifier.R
+import com.example.freepsplusgamesnotifier.common.Consts.EMPTY_STRING
 
 private val padding8dp = 8.dp
 
@@ -36,7 +37,7 @@ fun SocialIcon(@DrawableRes imageId: Int, onClick: (() -> Unit)) {
     }) {
         Image(
             painter = painterResource(id = imageId),
-            contentDescription = "",
+            contentDescription = EMPTY_STRING,
             modifier = Modifier
                 .width(48.dp)
                 .height(48.dp)

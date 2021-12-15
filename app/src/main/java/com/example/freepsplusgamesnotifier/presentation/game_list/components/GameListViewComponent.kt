@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import com.example.freepsplusgamesnotifier.common.Consts.EMPTY_STRING
 import com.example.freepsplusgamesnotifier.domain.model.GameListItem
 
 @Composable
@@ -79,7 +80,7 @@ fun GameTile(
                 Image(
                     painter = rememberImagePainter(it),
                     modifier = Modifier.fillMaxSize(),
-                    contentDescription = "",
+                    contentDescription = EMPTY_STRING,
                     contentScale = ContentScale.FillBounds
                 )
             }

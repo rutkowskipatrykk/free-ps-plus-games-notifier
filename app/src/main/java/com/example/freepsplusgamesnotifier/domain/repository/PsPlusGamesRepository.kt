@@ -4,12 +4,13 @@ import com.example.freepsplusgamesnotifier.data.remote.dto.GameDetailsDto
 import com.example.freepsplusgamesnotifier.data.remote.dto.GameListItemDto
 import com.example.freepsplusgamesnotifier.data.remote.dto.SearchedGameDto
 import com.example.freepsplusgamesnotifier.data.remote.dto.TrophyDto
+import retrofit2.Response
 
 interface PsPlusGamesRepository {
 
-    fun getListByDateInMillis(date: Long): List<GameListItemDto>
-    fun getGameDetails(id: Int): GameDetailsDto?
-    fun getGameTrophies(id: Int): List<TrophyDto>?
-    fun searchGame(gameName: String): List<SearchedGameDto>?
+    fun getListByDateInMillis(date: Long): Response<List<GameListItemDto>>
+    fun getGameDetails(id: Int): Response<GameDetailsDto>
+    fun getGameTrophies(id: Int): Response<List<TrophyDto>>
+    fun searchGame(gameName: String): Response<List<SearchedGameDto>>
 
 }
