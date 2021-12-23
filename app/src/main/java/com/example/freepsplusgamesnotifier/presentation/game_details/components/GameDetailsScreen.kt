@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,6 +18,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toUpperCase
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -141,13 +147,13 @@ fun DetailsHeader(game: Game, modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = game.name,
-                style = MaterialTheme.typography.h1,
+                style = MaterialTheme.typography.h6,
                 color = Color.White
             )
             game.developer?.isNotEmpty()?.let {
                 Text(
                     text = game.developer,
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.subtitle1,
                     color = Color.White,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -155,7 +161,7 @@ fun DetailsHeader(game: Game, modifier: Modifier = Modifier) {
             game.genre?.isNotEmpty()?.let {
                 Text(
                     text = game.genre,
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.subtitle1,
                     color = Color.White,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -193,7 +199,7 @@ fun GameDetailsCard(
             gameDetails.game.summary?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.body1,
+                    style = MaterialTheme.typography.body2,
                     modifier = Modifier.padding(padding8dp)
                 )
             }
@@ -207,12 +213,15 @@ fun GameDetailsCard(
                 ) {
                     Text(
                         text = stringResource(id = R.string.trophies),
-                        style = MaterialTheme.typography.h2,
+                        style = MaterialTheme.typography.h5,
                     )
                     TextButton(onClick = {
                         viewModel.changeListDirection()
                     }) {
-                        Text(stringResource(id = viewModel.getButtonText()))
+                        Text(
+                            stringResource(id = viewModel.getButtonText()).uppercase(),
+                            style = MaterialTheme.typography.button
+                        )
                     }
                 }
                 if (gameDetails.trophies.isNotEmpty()) {

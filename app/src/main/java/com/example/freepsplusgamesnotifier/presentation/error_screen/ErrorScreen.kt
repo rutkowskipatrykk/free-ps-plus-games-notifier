@@ -1,6 +1,7 @@
 package com.example.freepsplusgamesnotifier.presentation.error_screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,13 +16,18 @@ import com.example.freepsplusgamesnotifier.common.Consts.EMPTY_STRING
 
 @Composable
 fun ErrorScreen(errorText: String) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Column {
-            Image(painter = painterResource(id = R.drawable.controller), contentDescription = EMPTY_STRING)
-            Text(
-                text = errorText,
-                style = MaterialTheme.typography.h2
-            )
-        }
+    Column(
+        Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.controller),
+            contentDescription = EMPTY_STRING
+        )
+        Text(
+            text = errorText,
+            style = MaterialTheme.typography.h5
+        )
     }
 }

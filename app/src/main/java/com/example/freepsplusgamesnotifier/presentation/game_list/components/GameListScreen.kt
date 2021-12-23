@@ -81,7 +81,7 @@ fun Header(
         Spacer(modifier = Modifier.size(24.dp))
         Text(
             stringResource(id = R.string.welcome),
-            style = MaterialTheme.typography.h1,
+            style = MaterialTheme.typography.h4,
             color = MaterialTheme.colors.background
         )
         Spacer(modifier = Modifier.size(24.dp))
@@ -114,7 +114,7 @@ fun MonthChooser(
             text = month,
             fontSize = TextUnit.Unspecified,
             color = MaterialTheme.colors.background,
-            style = MaterialTheme.typography.h4,
+            style = MaterialTheme.typography.h5,
             modifier = Modifier.align(
                 Alignment.CenterVertically
             )
@@ -240,8 +240,9 @@ fun SearchButton(onSearchBarClick: (() -> Unit)? = null) {
             contentDescription = "Search"
         )
         Text(
-            text = "Check if game was available on PSPlus",
-            color = Color.Black
+            text = stringResource(id = R.string.check_was_game_available),
+            color = Color.Black,
+            style = MaterialTheme.typography.button
         )
     }
 }

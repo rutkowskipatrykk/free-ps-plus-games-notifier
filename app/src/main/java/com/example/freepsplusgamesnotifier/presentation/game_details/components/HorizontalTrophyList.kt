@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.freepsplusgamesnotifier.data.remote.dto.TrophyType
@@ -37,7 +38,12 @@ fun HorizontalTrophyList(
 @Composable
 fun SingleTrophy(trophy: Trophy) {
     TrophyWithTrophyIcon(trophy = trophy, iconBackground = MaterialTheme.colors.background)
-    Text(text = trophy.name, modifier = Modifier.padding(8.dp))
+    Text(
+        text = trophy.name,
+        style = MaterialTheme.typography.body2,
+        textAlign = TextAlign.Center,
+        modifier = Modifier.padding(8.dp)
+    )
 }
 
 @Preview

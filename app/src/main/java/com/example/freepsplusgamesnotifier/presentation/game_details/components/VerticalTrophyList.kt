@@ -1,10 +1,8 @@
 package com.example.freepsplusgamesnotifier.presentation.game_details.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,12 +32,24 @@ fun VerticalTrophyElement(trophy: Trophy) {
     ) {
         Row(
             modifier = Modifier
-                .padding(8.dp), verticalAlignment = Alignment.CenterVertically
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             TrophyWithTrophyIcon(trophy = trophy, iconBackground = Color.White)
-            Column {
-                Text(text = trophy.name, fontWeight = FontWeight.Bold)
-                Text(text = trophy.description, modifier = Modifier.padding(top = 16.dp))
+            Column(
+                modifier = Modifier.fillMaxHeight(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = trophy.name,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.body2,
+                )
+                Text(
+                    text = trophy.description,
+                    modifier = Modifier.padding(top = 16.dp),
+                    style = MaterialTheme.typography.body2,
+                )
             }
         }
     }

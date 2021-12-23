@@ -57,7 +57,7 @@ fun GameTile(
                         text = game.name,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 3,
-                        style = MaterialTheme.typography.body1,
+                        style = MaterialTheme.typography.subtitle1,
                         modifier = Modifier
                             .padding(start = 8.dp)
                             .fillMaxWidth()

@@ -16,6 +16,7 @@ fun Chip(modifier: Modifier = Modifier, chipText: String) {
     Text(
         text = chipText,
         color = MaterialTheme.colors.background,
+        style = MaterialTheme.typography.body2,
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colors.primary)

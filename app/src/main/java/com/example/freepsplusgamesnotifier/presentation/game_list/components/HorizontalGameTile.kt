@@ -48,12 +48,11 @@ fun HorizontalGameTile(
                     text = gameName,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 3,
-                    style = MaterialTheme.typography.body1,
+                    style = MaterialTheme.typography.subtitle1,
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .fillMaxWidth()
                 )
-
                 Row(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
