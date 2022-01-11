@@ -9,14 +9,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.example.freepsplusgamesnotifier.common.Consts.EMPTY_STRING
-import com.example.freepsplusgamesnotifier.domain.model.GameListItem
 
 @Composable
 fun HorizontalGameTile(
@@ -59,7 +58,7 @@ fun HorizontalGameTile(
                         .fillMaxWidth(),
                 ) {
                     if (gameRating > 0) {
-                        RateArc(gameRating.toInt(), Color.White)
+                        RateArc(gameRating.toInt(), MaterialTheme.colors.surface)
                     }
                 }
             }
@@ -70,6 +69,7 @@ fun HorizontalGameTile(
                 .width(150.dp)
                 .height(220.dp)
                 .align(Alignment.CenterStart)
+                .shadow(16.dp)
                 .clickable {
                     onClickTile?.invoke()
                 },
@@ -92,5 +92,5 @@ fun HorizontalGameTile(
 @Preview
 @Composable
 fun HorizontalGameTilePreview() {
-    VerticalGameTile(GameListItem.getMockItem())
+    HorizontalGameTile("name", 59.0, "")
 }

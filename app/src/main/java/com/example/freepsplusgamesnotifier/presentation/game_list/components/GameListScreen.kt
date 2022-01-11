@@ -6,7 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -32,34 +34,30 @@ import com.example.freepsplusgamesnotifier.presentation.error_screen.ErrorScreen
 import com.example.freepsplusgamesnotifier.presentation.game_list.GameListState
 import com.example.freepsplusgamesnotifier.presentation.game_list.view_model.GameListViewModel
 import com.example.freepsplusgamesnotifier.presentation.loading_screen.components.LoadingScreen
+import com.example.freepsplusgamesnotifier.ui.theme.headerTextColor
 
 @Composable
 fun MainScreenList(
     navController: NavController,
     viewModel: GameListViewModel = hiltViewModel()
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxHeight()
-            .background(MaterialTheme.colors.primary)
-    ) {
-        Column {
-            Header({
-                navController.navigate(Screen.GameSearchScreen.route)
-            })
-            Card(
-                backgroundColor = MaterialTheme.colors.background,
-                modifier = Modifier.fillMaxSize(),
-                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-            ) {
-                ListContent(viewModel.gameListState.value, {
-                    navController.navigate(
-                        Screen.GameDetailsScreen.generateGameDetailsPath(
-                            it
-                        )
+    Column {
+        Header({
+            navController.navigate(Screen.GameSearchScreen.route)
+        })
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+                .background(MaterialTheme.colors.background)
+        ) {
+            ListContent(viewModel.gameListState.value, {
+                navController.navigate(
+                    Screen.GameDetailsScreen.generateGameDetailsPath(
+                        it
                     )
-                })
-            }
+                )
+            })
         }
     }
 }
@@ -71,6 +69,7 @@ fun Header(
 ) {
     Column(
         modifier = Modifier
+            .background(MaterialTheme.colors.primaryVariant)
             .fillMaxWidth()
             .padding(16.dp)
     ) {
@@ -82,7 +81,7 @@ fun Header(
         Text(
             stringResource(id = R.string.welcome),
             style = MaterialTheme.typography.h4,
-            color = MaterialTheme.colors.background
+            color = MaterialTheme.colors.headerTextColor
         )
         Spacer(modifier = Modifier.size(24.dp))
         SearchButton(onSearchBarClick)
@@ -94,7 +93,8 @@ fun Header(
 fun MonthChooser(
     month: String,
     onAddMonth: (() -> Unit)? = null,
-    onSubtractMonth: (() -> Unit)? = null
+    onSubtractMonth: (() -> Unit)? = null,
+    elementColors: Color = MaterialTheme.colors.headerTextColor
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -104,7 +104,7 @@ fun MonthChooser(
         Icon(
             Icons.Default.KeyboardArrowLeft,
             contentDescription = EMPTY_STRING,
-            tint = MaterialTheme.colors.background,
+            tint = elementColors,
             modifier = Modifier
                 .size(48.dp)
                 .clickable {
@@ -113,15 +113,15 @@ fun MonthChooser(
         Text(
             text = month,
             fontSize = TextUnit.Unspecified,
-            color = MaterialTheme.colors.background,
             style = MaterialTheme.typography.h5,
+            color = elementColors,
             modifier = Modifier.align(
                 Alignment.CenterVertically
             )
         )
         Icon(Icons.Default.KeyboardArrowRight,
             contentDescription = EMPTY_STRING,
-            tint = MaterialTheme.colors.background,
+            tint = elementColors,
             modifier = Modifier
                 .size(48.dp)
                 .clickable {
@@ -229,7 +229,7 @@ fun SearchButton(onSearchBarClick: (() -> Unit)? = null) {
         modifier = Modifier
             .clip(MaterialTheme.shapes.medium)
             .fillMaxWidth()
-            .background(Color.White)
+            .background(MaterialTheme.colors.background)
             .clickable { onSearchBarClick?.invoke() }
             .padding(vertical = 8.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -241,7 +241,6 @@ fun SearchButton(onSearchBarClick: (() -> Unit)? = null) {
         )
         Text(
             text = stringResource(id = R.string.check_was_game_available),
-            color = Color.Black,
             style = MaterialTheme.typography.button
         )
     }

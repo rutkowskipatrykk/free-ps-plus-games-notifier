@@ -1,5 +1,6 @@
 package com.example.freepsplusgamesnotifier.presentation.game_details.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -7,7 +8,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -16,7 +16,7 @@ import com.example.freepsplusgamesnotifier.domain.model.Trophy
 
 @Composable
 fun VerticalTrophyList(modifier: Modifier = Modifier, trophies: List<Trophy>?) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.background(MaterialTheme.colors.background)) {
         trophies?.forEach {
             VerticalTrophyElement(it)
         }
@@ -29,13 +29,14 @@ fun VerticalTrophyElement(trophy: Trophy) {
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
+            .background(MaterialTheme.colors.background)
     ) {
         Row(
             modifier = Modifier
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TrophyWithTrophyIcon(trophy = trophy, iconBackground = Color.White)
+            TrophyWithTrophyIcon(trophy = trophy, iconBackground = MaterialTheme.colors.surface)
             Column(
                 modifier = Modifier.fillMaxHeight(),
                 verticalArrangement = Arrangement.SpaceBetween

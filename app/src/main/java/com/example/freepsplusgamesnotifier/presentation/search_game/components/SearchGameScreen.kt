@@ -44,7 +44,7 @@ fun SearchGameScreen(
             Modifier
                 .fillMaxSize()
         ) {
-            SearchBar(searchedValue = searchedPhrase.value) {
+            SearchBar(searchedValue = searchedPhrase.value, modifier = Modifier.padding(16.dp)) {
                 searchedPhrase.value = it
                 viewModel.insertGame(it)
             }
@@ -117,7 +117,8 @@ fun SearchBar(
             .fillMaxWidth(),
         maxLines = 1,
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color(232, 232, 232),
+            textColor = MaterialTheme.colors.onSurface,
+            backgroundColor = MaterialTheme.colors.surface,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent

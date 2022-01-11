@@ -3,24 +3,16 @@ package com.example.freepsplusgamesnotifier.presentation.game_details.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.toUpperCase
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -33,6 +25,7 @@ import com.example.freepsplusgamesnotifier.domain.model.GameDetailsData
 import com.example.freepsplusgamesnotifier.presentation.error_screen.ErrorScreen
 import com.example.freepsplusgamesnotifier.presentation.game_details.view_model.GameDetailsViewModel
 import com.example.freepsplusgamesnotifier.presentation.loading_screen.components.LoadingScreen
+import com.example.freepsplusgamesnotifier.ui.theme.buttonColor
 import java.lang.Float.min
 
 private val paddingForCoverHeader = 166.dp
@@ -88,12 +81,7 @@ fun GameDetailsContent(gameDetails: GameDetailsData) {
                         translationY = -scrollState.value * 0.1f
                     }
             )
-            GameDetailsCard(
-                gameDetails,
-                Modifier
-                    .fillMaxHeight()
-                    .defaultMinSize(minHeight = LocalConfiguration.current.screenHeightDp.dp - 55.dp)
-            )
+            GameDetailsCard(gameDetails)
         }
         HeaderGameCover(gameDetails.game, Modifier
             .padding(top = 30.dp, start = padding8dp)
@@ -174,67 +162,62 @@ fun DetailsHeader(game: Game, modifier: Modifier = Modifier) {
 @Composable
 fun GameDetailsCard(
     gameDetails: GameDetailsData,
-    modifier: Modifier = Modifier,
     viewModel: GameDetailsViewModel = hiltViewModel()
 ) {
-    Card(
-        backgroundColor = MaterialTheme.colors.background,
-        modifier = modifier,
-        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-    ) {
-        Column {
-            SocialRow(
-                Modifier
+    Column(modifier = Modifier) {
+        SocialRow(
+            Modifier
+                .fillMaxWidth()
+                .padding(start = paddingForCoverHeader, top = padding8dp, end = padding8dp),
+            viewModel::searchInGoogle,
+            viewModel::searchInYoutube,
+            viewModel::searchInPsStore,
+            viewModel::searchInMetacritic,
+        )
+        PlatformList(
+            Modifier.padding(start = padding8dp, top = 16.dp),
+            viewModel.platformList
+        )
+        gameDetails.game.summary?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier.padding(padding8dp)
+            )
+        }
+        if (gameDetails.trophies != null && gameDetails.trophies.isNotEmpty()) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = paddingForCoverHeader, top = padding8dp, end = padding8dp),
-                viewModel::searchInGoogle,
-                viewModel::searchInYoutube,
-                viewModel::searchInPsStore,
-                viewModel::searchInMetacritic,
-            )
-            PlatformList(
-                Modifier.padding(start = padding8dp, top = 16.dp),
-                viewModel.platformList
-            )
-            gameDetails.game.summary?.let {
+                    .padding(8.dp)
+            ) {
                 Text(
-                    text = it,
-                    style = MaterialTheme.typography.body2,
-                    modifier = Modifier.padding(padding8dp)
+                    text = stringResource(id = R.string.trophies),
+                    style = MaterialTheme.typography.h5,
                 )
-            }
-            if (gameDetails.trophies != null && gameDetails.trophies.isNotEmpty()) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
+                TextButton(
+                    onClick = {
+                    viewModel.changeListDirection()
+                }) {
                     Text(
-                        text = stringResource(id = R.string.trophies),
-                        style = MaterialTheme.typography.h5,
+                        stringResource(id = viewModel.getButtonText()).uppercase(),
+                        style = MaterialTheme.typography.button,
+                        color = MaterialTheme.colors.buttonColor
                     )
-                    TextButton(onClick = {
-                        viewModel.changeListDirection()
-                    }) {
-                        Text(
-                            stringResource(id = viewModel.getButtonText()).uppercase(),
-                            style = MaterialTheme.typography.button
-                        )
-                    }
                 }
-                if (gameDetails.trophies.isNotEmpty()) {
-                    if (viewModel.isListHorizontal.value) {
-                        HorizontalTrophyList(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(padding8dp),
-                            gameDetails.trophies
-                        )
-                    } else {
-                        VerticalTrophyList(trophies = gameDetails.trophies)
-                    }
+            }
+            if (gameDetails.trophies.isNotEmpty()) {
+                if (viewModel.isListHorizontal.value) {
+                    HorizontalTrophyList(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(padding8dp),
+                        gameDetails.trophies
+                    )
+                } else {
+                    VerticalTrophyList(trophies = gameDetails.trophies)
                 }
             }
         }

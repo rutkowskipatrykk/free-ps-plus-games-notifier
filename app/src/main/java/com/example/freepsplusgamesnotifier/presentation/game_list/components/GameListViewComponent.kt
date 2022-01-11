@@ -9,7 +9,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,7 +50,7 @@ fun GameTile(
                         .fillMaxWidth(),
                 ) {
                     if (game.rating > 0) {
-                        RateArc(game.rating.toInt(), Color.White)
+                        RateArc(game.rating.toInt(), MaterialTheme.colors.surface)
                     }
                     Text(
                         text = game.name,
