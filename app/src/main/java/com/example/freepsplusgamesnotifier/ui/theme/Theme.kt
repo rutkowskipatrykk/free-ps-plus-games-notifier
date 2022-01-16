@@ -14,8 +14,6 @@ private val DarkColorPalette = darkColors(
     background = nero,
     surface = nightRider,
     onPrimary = mortar,
-    onSecondary = whiteSmoke,
-    onBackground = whiteSmoke,
     onSurface = black,
 )
 
